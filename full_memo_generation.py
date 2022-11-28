@@ -20,12 +20,12 @@ def format_polygon(polygon):
         return "N/A"
     return ", ".join(["[{}, {}]".format(p.x, p.y) for p in polygon])
 
-def analyze_read():
+def analyze_read(page_number=None):
     # Get key, endpoint variables
     auth_dict = load_variables()
     # sample form document
     #formUrl = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/rest-api/read.png"
-    formUrl = "https://github.com/ts-azure-services/form-recognizer-sample/blob/main/data/1.png"
+    formUrl = f"https://github.com/ts-azure-services/form-recognizer-sample/blob/main/data/{page_number}.png"
     formUrl = formUrl + "?raw=true"
     document_analysis_client = DocumentAnalysisClient(
         endpoint=auth_dict['endpoint'], 
@@ -33,43 +33,18 @@ def analyze_read():
     )
 
     poller = document_analysis_client.begin_analyze_document_from_url("prebuilt-read", formUrl)
-    #poller = document_analysis_client.begin_analyze_document("prebuilt-read", document='./data/1.png', locale='en-US')
     result = poller.result()
-
-    print("Document contains content: ", result.content)
-
-    for idx, style in enumerate(result.styles):
-        print(
-            "Document contains {} content".format(
-                "handwritten" if style.is_handwritten else "no handwritten"
-            )
-        )
-
-    for page in result.pages:
-        print("----Analyzing Read from page #{}----".format(page.page_number))
-        print(
-            "Page has width: {} and height: {}, measured with unit: {}".format(
-                page.width, page.height, page.unit
-            )
-        )
-
-        for line_idx, line in enumerate(page.lines):
-            print(
-                "...Line # {} has text content '{}' within bounding box '{}'".format(
-                    line_idx,
-                    line.content,
-                    format_polygon(line.polygon),
-                )
-            )
-
-        for word in page.words:
-            print(
-                "...Word '{}' has a confidence of {}".format(
-                    word.content, word.confidence
-                )
-            )
-
-    print("----------------------------------------")
+    return result.content
+    #print("Document contains content: ", result.content)
 
 if __name__ == "__main__":
-    analyze_read()
+    page_numbers = [1, 2, 3, 4, 5, 6, 7, 8]
+    #page_numbers = [1, 2]#test
+    complete_memo = ""
+    for page in page_numbers:
+        text = analyze_read(page)
+        complete_memo += text
+
+    # Write out full memo
+    with open('./complete_memo.txt', 'w') as f:
+        f.write(complete_memo)

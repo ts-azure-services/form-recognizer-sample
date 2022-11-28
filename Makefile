@@ -8,3 +8,4 @@ infra:
 
 workflow:
 	python read_model.py
+	python full_memo_generation.py
