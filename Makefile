@@ -9,3 +9,7 @@ infra:
 workflow:
 	python read_model.py
 	python full_memo_generation.py
+
+ocr_from_doc:
+	python ./scripts/pdf_model.py --data_input_file "./data/sample.pdf"\
+		--output_path "./outputs/ocr_sample_pdf.txt"
