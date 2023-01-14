@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 def load_variables():
     """Load authentication details"""
-    env_var=load_dotenv('./variables.env')
+    load_dotenv('./variables.env')
     auth_dict = {"resource":os.environ['COG_RESOURCE'],
                  "key":os.environ['COG_KEY'],
                  "endpoint":os.environ['ENDPOINT'],

@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 def load_variables():
     """Load authentication details"""
-    env_var=load_dotenv('./variables.env')
+    load_dotenv('./variables.env')
     auth_dict = {"resource":os.environ['COG_RESOURCE'],
                  "key":os.environ['COG_KEY'],
                  "endpoint":os.environ['ENDPOINT'],
@@ -46,5 +46,5 @@ if __name__ == "__main__":
         complete_memo += text
 
     # Write out full memo
-    with open('./complete_memo.txt', 'w') as f:
+    with open('./outputs/complete_memo.txt', 'w') as f:
         f.write(complete_memo)

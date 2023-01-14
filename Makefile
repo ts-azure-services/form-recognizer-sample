@@ -6,9 +6,11 @@ install:
 infra:
 	./setup/create-cognitive-resource.sh
 
-workflow:
-	python read_model.py
-	python full_memo_generation.py
+sample_workflow:
+	python ./scripts/read_model.py
+
+ar_memo:
+	python ./scripts/full_memo_generation.py
 
 ocr_from_doc:
 	python ./scripts/pdf_model.py --data_input_file "./data/sample.pdf"\
