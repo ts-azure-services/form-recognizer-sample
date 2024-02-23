@@ -21,8 +21,7 @@ number=$[ ( $RANDOM % 10000 ) + 1 ]
 root_word='fr'
 resourcegroup=$root_word$number'rg'
 cognitiveservice=$root_word$number'cogaccount'
-location='westus'
-endpoint="https://westus.api.cognitive.microsoft.com/"
+location='westus2'
 
 printf "${grn}STARTING CREATION OF RESOURCE GROUP...${end}\n"
 rgCreate=$(az group create --name $resourcegroup --location $location)
@@ -37,10 +36,14 @@ printf "Result of cognitive services create:\n $cognitiveServices \n"
 
 ## Retrieve key from cognitive services
 printf "${grn}RETRIEVE KEY FOR COGNITIVE SERVICES...${end}\n"
-cogKey=$(az cognitiveservices account keys list -g $resourcegroup --name $cognitiveservice --query "key1")
+cogKey=$(az cognitiveservices account keys list -g $resourcegroup --name $cognitiveservice --query "key1" -o tsv)
 
-# Remove double quotes from primary key
-cogkey=$(sed -e 's/^"//' -e 's/"$//' <<<"$cogKey")
+# # Remove double quotes from primary key
+# cogkey=$(sed -e 's/^"//' -e 's/"$//' <<<"$cogKey")
+#
+## Retrieve the endpoint
+printf "${grn}RETRIEVE KEY FOR COGNITIVE SERVICES...${end}\n"
+endpoint=$(az cognitiveservices account show -g $resourcegroup --name $cognitiveservice --query properties.endpoint -o tsv)
 
 sleep 5 # just to give time for artifacts to settle in the system, and be accessible
 printf "${grn}WRITING OUT ENVIRONMENT VARIABLES...${end}\n"
@@ -49,4 +52,4 @@ printf "RESOURCE_GROUP=$resourcegroup \n"> $configFile
 printf "LOCATION=$location \n">> $configFile
 printf "ENDPOINT=$endpoint \n">> $configFile
 printf "COG_RESOURCE=$cognitiveservice \n">> $configFile
-printf "COG_KEY=$cogkey \n">> $configFile
+printf "COG_KEY=$cogKey \n">> $configFile

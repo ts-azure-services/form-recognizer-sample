@@ -7,7 +7,6 @@ venv_setup:
 	python3.11 -m venv .venv
 	.venv/bin/python -m pip install --upgrade pip
 	.venv/bin/python -m pip install -r ./requirements.txt
-	# source .tutorial_venv/bin/activate # not possible with Makefile
 
 infra:
 	./setup/create-cognitive-resource.sh
@@ -21,6 +20,10 @@ ar_memo:
 ocr_from_doc:
 	.venv/bin/python ./scripts/pdf_model.py --data_input_file "./data/sample.pdf"\
 		--output_path "./outputs/ocr_sample_pdf.txt"
+
+font-styles:
+	# Uses an internal file
+	.venv/bin/python ./scripts/sample_analyze_addon_fonts.py
 
 # Commit local branch changes
 branch=$(shell git symbolic-ref --short HEAD)
