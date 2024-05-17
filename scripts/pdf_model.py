@@ -1,5 +1,6 @@
 """Goal is to use the pre-built read model to get text from a PDF document"""
 import os
+import time
 import argparse
 from azure.ai.formrecognizer import DocumentAnalysisClient
 from azure.core.credentials import AzureKeyCredential
@@ -44,4 +45,7 @@ if __name__ == "__main__":
     parser.add_argument("-o", "--output_path", help="Path to store OCR results")
     args = parser.parse_args()
 
+    start = time.time()
     analyze_read(data_file=args.data_input_file, output_path=args.output_path)
+    end = time.time()
+    print(f"Script took {end-start} seconds.")

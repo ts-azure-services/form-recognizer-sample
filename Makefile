@@ -19,7 +19,7 @@ ar_memo:
 
 ocr_from_doc:
 	.venv/bin/python ./scripts/pdf_model.py --data_input_file "./data/sample.pdf"\
-		--output_path "./outputs/ocr_sample_pdf.txt"
+		--output_path "./outputs/sample.txt"
 
 font-styles:
 	# Uses an internal file
